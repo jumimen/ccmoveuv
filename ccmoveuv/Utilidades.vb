@@ -1,5 +1,6 @@
 ﻿Imports System.Data.Odbc
 Imports System.Security.Cryptography
+Imports System.Threading.Tasks
 
 Public Class Utilidades
 
@@ -21,6 +22,39 @@ Public Class Utilidades
         }
             Return Encoding.UTF8.GetString(des.CreateDecryptor().TransformFinalBlock(buffer, 0, buffer.Length()))
         End Using
+    End Function
+
+    Public Async Function ObtenerHoraMaximaAsync(
+    cadena As String,
+    usuario As String,
+    programa As String
+) As Task(Of TimeSpan?)
+
+        Using conn As New OdbcConnection(cadena)
+            Await conn.OpenAsync()
+
+            Using cmd As New OdbcCommand("
+            SELECT MAX(hora) AS maxHora
+            FROM siaudpro
+            WHERE audusua = ?
+              AND programa = ?
+              AND audfech = ?", conn)
+
+                cmd.Parameters.AddWithValue("?", usuario)
+                cmd.Parameters.AddWithValue("?", programa)
+                cmd.Parameters.AddWithValue("?", Date.Today)
+
+                Using dr As OdbcDataReader = Await cmd.ExecuteReaderAsync()
+                    If Await dr.ReadAsync() AndAlso
+                   Not Convert.IsDBNull(dr("maxHora")) Then
+
+                        Return TimeSpan.Parse(dr("maxHora").ToString())
+                    End If
+                End Using
+            End Using
+        End Using
+
+        Return Nothing
     End Function
 
     Public Function ObtenerHoraMaxima(
@@ -75,6 +109,23 @@ Public Class Utilidades
         context.Response.Redirect(url, False)
     End Sub
 
+    Public Async Function EnlaceExpiraAsync(
+    usuario As String,
+    cadena As String,
+    programa As String,
+    context As HttpContext
+) As Task(Of Boolean)
+
+        Dim horaMaxima = Await ObtenerHoraMaximaAsync(cadena, usuario, programa)
+
+        If EstaExpirado(horaMaxima) Then
+            Redirigir(context, "HtmlPage1.html")
+            Return True
+        End If
+
+        Return False
+    End Function
+
     Public Sub EnlaceExpira(
     usuario As String,
     cadena As String,
@@ -89,6 +140,34 @@ Public Class Utilidades
             context.Response.Write("Error: " & ex.Message)
         End Try
     End Sub
+
+    Public Async Function TienePermisoAsync(
+    cadena As String,
+    usuario As String,
+    programa As String,
+    permiso As Char
+) As Task(Of Boolean)
+
+        Using conn As New OdbcConnection(cadena)
+            Await conn.OpenAsync()
+
+            Using cmd As New OdbcCommand("
+            SELECT 1
+            FROM simaeppu
+            WHERE usuario = ?
+              AND programa = ?
+              AND permiso = ?", conn)
+
+                cmd.Parameters.AddWithValue("?", usuario)
+                cmd.Parameters.AddWithValue("?", programa)
+                cmd.Parameters.AddWithValue("?", permiso)
+
+                Using dr As OdbcDataReader = Await cmd.ExecuteReaderAsync()
+                    Return Await dr.ReadAsync()
+                End Using
+            End Using
+        End Using
+    End Function
 
     Public Function TienePermiso(
     cadena As String,
@@ -119,6 +198,23 @@ Public Class Utilidades
 
     End Function
 
+    Public Async Function VerificarPermisosAsync(
+    cadena As String,
+    usuario As String,
+    permiso As Char,
+    context As HttpContext
+) As Task
+
+        Dim programa As String = "pdmovrtp"
+
+        Dim tienePermiso =
+        Await TienePermisoAsync(cadena, usuario, programa, permiso)
+
+        If Not tienePermiso Then
+            Redirigir(context, "Formulario web2.aspx")
+        End If
+    End Function
+
     Public Sub VerificarPermisos(
     cadena As String,
     usuario As String,
@@ -137,6 +233,30 @@ Public Class Utilidades
 
     End Sub
 
+    Public Async Function ObtenerNombreEmpresaAsync(
+    cadena As String,
+    codCia As Integer
+) As Task(Of String)
+
+        Using c As New OdbcConnection(cadena)
+            Await c.OpenAsync()
+
+            Using cmd As New OdbcCommand(
+            "SELECT emp_nomb FROM gn_empre WHERE emp_codi = ?", c)
+
+                cmd.Parameters.AddWithValue("?", codCia)
+
+                Using dr As OdbcDataReader = Await cmd.ExecuteReaderAsync()
+                    If Await dr.ReadAsync() Then
+                        Return dr("emp_nomb").ToString()
+                    End If
+                End Using
+            End Using
+        End Using
+
+        Return Nothing
+    End Function
+
     Public Function ObtenerNombreEmpresa(
     cadena As String,
     codCia As Integer
@@ -153,6 +273,30 @@ Public Class Utilidades
                 Using dr As OdbcDataReader = cmd.ExecuteReader()
                     If dr.Read() Then
                         Return dr("emp_nomb").ToString()
+                    End If
+                End Using
+            End Using
+        End Using
+
+        Return Nothing
+    End Function
+
+    Public Async Function ObtenerCargoAsync(
+    cadena As String,
+    usuario As String
+) As Task(Of String)
+
+        Using conn As New OdbcConnection(cadena)
+            Await conn.OpenAsync()
+
+            Using cmd As New OdbcCommand(
+                "SELECT nombre FROM simaeusu WHERE usuario=?", conn)
+
+                cmd.Parameters.AddWithValue("?", usuario)
+
+                Using dr As OdbcDataReader = Await cmd.ExecuteReaderAsync()
+                    If Await dr.ReadAsync() Then
+                        Return dr("nombre").ToString()
                     End If
                 End Using
             End Using

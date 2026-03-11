@@ -1,7 +1,6 @@
 ﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Site1.master.vb" Inherits="ccmoveuv.Site1" %>
 
 <!DOCTYPE html>
-
 <html>
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +19,7 @@
             <div class="col-1">
                 <img alt="LogoCOASPHARMA" src="images/LogoBSoft_FondoAzul.png" class="img-fluid">
             </div>
-            <div class="col-4 mt-1" style="font-size:small">
+            <div class="col-3 mt-1" style="font-size:small">
                 <div class="badge bg-primary text-wrap">
                     Usuario B-SOFT:<asp:Literal ID="Literal1" runat="server"></asp:Literal>
                 </div>
@@ -28,7 +27,7 @@
                     Cargo:<asp:Literal ID="Literal2" runat="server"></asp:Literal>
                 </div>
             </div>
-            <div class="col-6 mt-1">
+            <div class="col-7 mt-1">
                 <ul class="nav nav-pills nav-fill text-center">
                     <li class="nav-item ">
                         <a class="nav-link btn-hover text-white " href='<%= "Formulario Web1.aspx?Gusuario=" & Request.QueryString("Gusuario") & "&Codcia=" & Request.QueryString("Codcia") & "&Empresa=" & Request.QueryString("Empresa") %>'>Consultar</a>
@@ -36,29 +35,31 @@
                     <li class="nav-item ">
                         <a class="nav-link btn-hover text-white" href='<%= "Formulario Web3.aspx?Gusuario=" & Request.QueryString("Gusuario") & "&Codcia=" & Request.QueryString("Codcia") & "&Empresa=" & Request.QueryString("Empresa") %>'>Grabar</a>
                     </li>
-                    <li class="nav-itemms ">
-                        <a class="nav-link btn-hover text-white " href='<%= "Formulario Web4.aspx?Gusuario=" & Request.QueryString("Gusuario") & "&Codcia=" & Request.QueryString("Codcia") & "&Empresa=" & Request.QueryString("Empresa") %>'>Verificar</a>
+                    <li class="nav-item ">
+                        <a class="nav-link btn-hover text-white " href='<%= "Formulario Web4.aspx?Gusuario=" & Request.QueryString("Gusuario") & "&Codcia=" & Request.QueryString("Codcia") & "&Empresa=" & Request.QueryString("Empresa") %>'>Revisar 1</a> 
                     </li>
+                    <li class="nav-item"><a class="nav-link btn-hover text-white " href='<%= "Formulario Web4.aspx?Gusuario=" & Request.QueryString("Gusuario") & "&Codcia=" & Request.QueryString("Codcia") & "&Empresa=" & Request.QueryString("Empresa") %>'>Revisar 2</a></li>
+                    <li class="nav-item"> <a class="nav-link btn-hover text-white " href='<%= "Formulario Web4.aspx?Gusuario=" & Request.QueryString("Gusuario") & "&Codcia=" & Request.QueryString("Codcia") & "&Empresa=" & Request.QueryString("Empresa") %>'>Aprobar</a></li>
+                    <li class="nav-item"><a class="nav-link btn-hover text-white " href='<%= "Formulario Web4.aspx?Gusuario=" & Request.QueryString("Gusuario") & "&Codcia=" & Request.QueryString("Codcia") & "&Empresa=" & Request.QueryString("Empresa") %>'>Modificar</a></li>
                     <li class="nav-item text-start ">
                         <a class="nav-link btn-hover text-white " href='<%= "Formulario Web5.aspx?Gusuario=" & Request.QueryString("Gusuario") & "&Codcia=" & Request.QueryString("Codcia") & "&Empresa=" & Request.QueryString("Empresa") %>'>Devolver</a>
                     </li>
                 </ul>
             </div>
             <div class="col-1">
-                <img src="images/logo-coaspharma.png" class="img-fluid" />
+                <img src="images/logo-reportes-coaspharma-2026.png" class="img-fluid mt-2" />
             </div>
         </div>
     </div>
-    <br />
         <asp:HyperLink ID="hlVerManual" runat="server"
     NavigateUrl="~/Reportes/p.pdf"
     Target="_blank"
-    CssClass="btn btn-outline-primary text-white" ToolTip="Ver Manual" Style="background-color: #005AA7;">
+    CssClass="btn btn-outline-primary text-white mt-1" ToolTip="Ver Manual" Style="background-color: #005AA7;">
  <img src="/bsoft/public/icons/file-text-white.svg" alt="Manual" />
 </asp:HyperLink>
-    <br />
+   
     <div class="row text-center">
-        <strong>ETAPA 1 VALIDACIONES</strong>
+        <strong>FORMATO PARA INFORME DE VALIDACIÓN DE PROCESOS ETAPA 1</strong>
     </div>
     <form id="form1" runat="server">
         <div>

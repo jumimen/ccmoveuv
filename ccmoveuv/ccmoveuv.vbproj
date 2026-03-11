@@ -92,9 +92,45 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Formulario web1.aspx" />
+    <Content Include="Formulario web2.aspx" />
+    <Content Include="Formulario web3.aspx" />
+    <Content Include="images\calendar_55281.png" />
+    <Content Include="images\canecaPeque.png" />
+    <Content Include="images\edit_FILL0_wght400_GRAD0_opsz48.png" />
+    <Content Include="images\imagen.jpg" />
+    <Content Include="images\IMG-20230519-WA0011 %281%29.jpg" />
+    <Content Include="images\La mejor empresa.png" />
+    <Content Include="images\Lapiz.png" />
+    <Content Include="images\logo-coaspharma.png" />
+    <Content Include="images\logo-reportes-coaspharma-2026.png" />
+    <Content Include="images\LogoBSoft_FondoAzul.png" />
+    <Content Include="images\search-black.svg" />
+    <Content Include="images\sinak.png" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formulario web1.aspx.designer.vb">
+      <DependentUpon>Formulario web1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formulario web1.aspx.vb">
+      <DependentUpon>Formulario web1.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Formulario web2.aspx.designer.vb">
+      <DependentUpon>Formulario web2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formulario web2.aspx.vb">
+      <DependentUpon>Formulario web2.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Formulario web3.aspx.designer.vb">
+      <DependentUpon>Formulario web3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formulario web3.aspx.vb">
+      <DependentUpon>Formulario web3.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
